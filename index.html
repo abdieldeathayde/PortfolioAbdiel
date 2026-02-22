@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML + CSS</title>
+</head>
+<body>
+    <h1 id="titulo">Aula 05</h1>
+    <div id="bloco"></div>
+    
+
+</body>
+
+<script>
+    let titulo = document.getElementById("titulo")
+    titulo.innerText = "Sejam bem vindos a aula 05"
+
+    let bloco = document.createElement("div");
+    bloco.innerHTML = "<p>Esse é o  nosso paragrafo teste</p>";
+    document.body.appendChild(bloco);
+
+    
+</script>
+</html>
