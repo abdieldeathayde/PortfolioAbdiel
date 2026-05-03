@@ -19,11 +19,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 mensagem: document.getElementById("mensagem").value
             };
 
-            fetch("SUA_URL_DO_SCRIPT", {
+            fetch("https://abdiel-desenvolvedor.vercel.app/", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
+                mode: "no-cors",
                 body: JSON.stringify(dados)
             })
             .then(() => {
