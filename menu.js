@@ -36,7 +36,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const status = document.getElementById("status");
             status.innerText = "Enviando...";
 
-            fetch("SUA_URL", {
+            fetch("https://abdiel-desenvolvedor.vercel.app/", {
             method: "POST",
             mode: "no-cors",
             body: formData
