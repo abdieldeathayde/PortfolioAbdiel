@@ -16,36 +16,46 @@ document.addEventListener('DOMContentLoaded', () => {
     // FORMULÁRIO DE CONTATO
     // =========================
     const form = document.getElementById("formContato");
+    const status = document.getElementById("status"); // opcional no HTML
 
     if (form) {
         form.addEventListener("submit", function (e) {
             e.preventDefault();
 
-            // Captura dos dados do formulário
-            const nome = document.getElementById("nome").value;
-            const email = document.getElementById("email").value;
-            const mensagem = document.getElementById("mensagem").value;
+            // Captura dos dados
+            const nome = document.getElementById("nome").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const mensagem = document.getElementById("mensagem").value.trim();
 
-            // 🔥 Usando FormData (ESSENCIAL para funcionar com Apps Script)
+            // 🔒 Validação simples
+            if (!nome || !email || !mensagem) {
+                alert("Preencha todos os campos!");
+                return;
+            }
+
+            // 🔥 FormData (ESSENCIAL)
             const formData = new FormData();
             formData.append("nome", nome);
             formData.append("email", email);
             formData.append("mensagem", mensagem);
 
-            // 🔥 Envio para o Google Apps Script
-            const status = document.getElementById("status");
-            status.innerText = "Enviando...";
+            // Feedback visual
+            if (status) status.innerText = "Enviando...";
 
+            // 🚀 Envio para Apps Script
             fetch("https://abdiel-desenvolvedor.vercel.app/", {
-            method: "POST",
-            mode: "no-cors",
-            body: formData
+                method: "POST",
+                mode: "no-cors",
+                body: formData
             })
             .then(() => {
-            status.innerText = "Enviado com sucesso!";
+                if (status) status.innerText = "Mensagem enviada com sucesso!";
+                alert("Mensagem enviada com sucesso!");
+                form.reset();
             })
             .catch(() => {
-            status.innerText = "Erro ao enviar.";
+                if (status) status.innerText = "Erro ao enviar.";
+                alert("Erro ao enviar. Tente novamente.");
             });
         });
     }
