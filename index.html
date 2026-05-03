@@ -108,33 +108,12 @@
         </div>
     </section>
 
-    <section id="contato">
-        <h2>Entre em contato</h2>
-        <p>
-            Tem algum projeto em mente ou quer saber mais sobre mim? Sinta-se à vontade para entrar em contato!
-        </p>
-        <div class="contatos-lista">
-            <div class="contato-item">
-                <strong>Email:</strong>
-                <span>abdieldeathayde67@gmail.com</span>
-            </div>
-            <div class="contato-item">
-                <strong>Telefone:</strong>
-                <span>(47) 98484-9363</span>
-            </div>
-
-            <div class="contato-item">
-                <strong>Localização:</strong>
-                <span>Blumenau</span>
-            </div>
-
-            <div class="redes-sociais">
-                
-                <a href="https://www.linkedin.com/in/abdieldeathayde">Linkedin</a>
-                <a href="https://github.com/abdieldeathayde">GitHub</a>
-            </div>
-        </div>
-    </section>
+    <form id="formContato" class="contato-form">
+        <input type="text" id="nome" placeholder="Seu nome" required>
+        <input type="email" id="email" placeholder="Seu email" required>
+        <textarea id="mensagem" placeholder="Sua mensagem" required></textarea>
+        <button type="submit">Enviar</button>
+    </form>
     <script src="menu.js"></script>
 </body>
 </html>

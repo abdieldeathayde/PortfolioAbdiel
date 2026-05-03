@@ -713,3 +713,33 @@ li {
     bottom: -10px;
 
 }
+
+
+.contato-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 400px;
+    margin: auto;
+}
+
+.contato-form input,
+.contato-form textarea {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+}
+
+.contato-form button {
+    background: #34d399;
+    color: #020617;
+    border: none;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.contato-form button:hover {
+    background: #10b981;
+}
