@@ -33,17 +33,19 @@ document.addEventListener('DOMContentLoaded', () => {
             formData.append("mensagem", mensagem);
 
             // 🔥 Envio para o Google Apps Script
-            fetch("https://abdiel-desenvolvedor.vercel.app/", {
-                method: "POST",
-                mode: "no-cors", // necessário por causa do CORS do Google
-                body: formData
+            const status = document.getElementById("status");
+            status.innerText = "Enviando...";
+
+            fetch("SUA_URL", {
+            method: "POST",
+            mode: "no-cors",
+            body: formData
             })
             .then(() => {
-                alert("Mensagem enviada com sucesso!");
-                form.reset();
+            status.innerText = "Enviado com sucesso!";
             })
             .catch(() => {
-                alert("Erro ao enviar. Tente novamente.");
+            status.innerText = "Erro ao enviar.";
             });
         });
     }
