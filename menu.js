@@ -30,9 +30,44 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarProjetos();
 
     // 3. Formulário de Contato
-    const form = document.getElementById("formContato");
+    // Dentro do seu DOMContentLoaded no menu.js
+const form = document.getElementById("formContato");
+
+if (form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
-        alert("Abidiel, conecte sua URL de API aqui para receber mensagens!");
+        
+        // Mudar o texto do botão para dar feedback visual
+        const btn = form.querySelector("button");
+        const originalBtnText = btn.innerText;
+        btn.innerText = "Enviando...";
+        btn.disabled = true;
+
+        const dados = {
+            nome: document.getElementById("nome").value,
+            email: document.getElementById("email").value,
+            mensagem: document.getElementById("mensagem").value
+        };
+
+        try {
+            const response = await fetch("/api/send-message", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(dados)
+            });
+
+            if (response.ok) {
+                alert("Mensagem enviada com sucesso, Abdiel!");
+                form.reset(); // Limpa os campos
+            } else {
+                throw new Error("Erro no servidor");
+            }
+        } catch (err) {
+            alert("Ops! Houve um erro ao enviar. Tente novamente mais tarde.");
+        } finally {
+            btn.innerText = originalBtnText;
+            btn.disabled = false;
+        }
     });
+}
 });
