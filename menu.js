@@ -1,63 +1,38 @@
 document.addEventListener('DOMContentLoaded', () => {
-
-    // =========================
-    // MENU HAMBURGUER
-    // =========================
+    // 1. Menu Hamburguer
     const hamburguer = document.getElementById('hamburguer');
     const menu = document.getElementById('menu');
-
-    if (hamburguer && menu) {
-        hamburguer.addEventListener('click', () => {
-            menu.classList.toggle('ativa');
-        });
+    if (hamburguer) {
+        hamburguer.addEventListener('click', () => menu.classList.toggle('ativa'));
     }
 
-    // =========================
-    // FORMULÁRIO DE CONTATO
-    // =========================
+    // 2. BUSCAR PROJETOS DO BANCO (Vercel Postgres)
+    const carregarProjetos = async () => {
+        const container = document.querySelector('.projetos-container');
+        try {
+            const response = await fetch('/api/get-projects');
+            const projetos = await response.json();
+
+            container.innerHTML = projetos.map(p => `
+                <div class="projeto-card">
+                    <h3>${p.titulo}</h3>
+                    <p>${p.descricao}</p>
+                    <p><small>Tags: ${p.tecnologias}</small></p>
+                    <img src="${p.imagem}" alt="Preview">
+                    <a href="${p.link_github}" target="_blank">Ver projeto</a>
+                </div>
+            `).join('');
+        } catch (err) {
+            console.error("Erro ao carregar banco de dados:", err);
+        }
+    };
+
+    carregarProjetos();
+
+    // 3. Formulário de Contato
     const form = document.getElementById("formContato");
-    const status = document.getElementById("status"); // opcional no HTML
-
-    if (form) {
-        form.addEventListener("submit", function (e) {
-            e.preventDefault();
-
-            // Captura dos dados
-            const nome = document.getElementById("nome").value.trim();
-            const email = document.getElementById("email").value.trim();
-            const mensagem = document.getElementById("mensagem").value.trim();
-
-            // 🔒 Validação simples
-            if (!nome || !email || !mensagem) {
-                alert("Preencha todos os campos!");
-                return;
-            }
-
-            // 🔥 FormData (ESSENCIAL)
-            const formData = new FormData();
-            formData.append("nome", nome);
-            formData.append("email", email);
-            formData.append("mensagem", mensagem);
-
-            // Feedback visual
-            if (status) status.innerText = "Enviando...";
-
-            // 🚀 Envio para Apps Script
-            fetch("https://abdiel-desenvolvedor.vercel.app/", {
-                method: "POST",
-                mode: "no-cors",
-                body: formData
-            })
-            .then(() => {
-                if (status) status.innerText = "Mensagem enviada com sucesso!";
-                alert("Mensagem enviada com sucesso!");
-                form.reset();
-            })
-            .catch(() => {
-                if (status) status.innerText = "Erro ao enviar.";
-                alert("Erro ao enviar. Tente novamente.");
-            });
-        });
-    }
-
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        alert("Abidiel, conecte sua URL de API aqui para receber mensagens!");
+    });
 });
