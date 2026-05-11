@@ -31,18 +31,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Formulário de Contato
     // Dentro do seu DOMContentLoaded no menu.js
+// Localize o formulário no seu menu.js
 const form = document.getElementById("formContato");
 
 if (form) {
     form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        
-        // Mudar o texto do botão para dar feedback visual
+        e.preventDefault(); // Impede a página de recarregar
+
         const btn = form.querySelector("button");
-        const originalBtnText = btn.innerText;
-        btn.innerText = "Enviando...";
+        btn.innerText = "Enviando..."; // Feedback visual
         btn.disabled = true;
 
+        // Captura os dados que você digitou nos campos
         const dados = {
             nome: document.getElementById("nome").value,
             email: document.getElementById("email").value,
@@ -50,22 +50,24 @@ if (form) {
         };
 
         try {
-            const response = await fetch("/api/send-message", {
+            // Tenta enviar para a sua API na Vercel
+            const response = await fetch("/api/send-contact", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(dados)
             });
 
             if (response.ok) {
-                alert("Mensagem enviada com sucesso, Abdiel!");
-                form.reset(); // Limpa os campos
+                alert("Sucesso! Mensagem salva no banco de dados.");
+                form.reset(); // Limpa o formulário após enviar
             } else {
-                throw new Error("Erro no servidor");
+                alert("Erro ao enviar mensagem.");
             }
         } catch (err) {
-            alert("Ops! Houve um erro ao enviar. Tente novamente mais tarde.");
+            console.error(err);
+            alert("Erro de conexão com a API.");
         } finally {
-            btn.innerText = originalBtnText;
+            btn.innerText = "Enviar";
             btn.disabled = false;
         }
     });
