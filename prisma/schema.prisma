@@ -1,13 +1,35 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
+// 1. Configuração do Gerador (Client)
+// O provedor correto para JavaScript/TypeScript é "prisma-client-js"
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider = "prisma-client-js"
 }
 
+// 2. Configuração do Banco
+// No Prisma 7, a URL fica no prisma.config.ts, por isso deixamos apenas o provider
 datasource db {
   provider = "postgresql"
+}
+
+// 3. MODELO DE PROJETOS (Para exibir no site)
+model Projeto {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  descricao   String
+  tecnologias String
+  link_github String?
+  imagem      String?
+  ordem       Int      @default(0)
+
+  @@map("projetos") // Nome da tabela no banco
+}
+
+// 4. MODELO DE CONTATOS (Para o formulário)
+model Mensagem {
+  id        Int      @id @default(autoincrement())
+  nome      String
+  email     String
+  mensagem  String
+  createdAt DateTime @default(now())
+
+  @@map("mensagens") // Nome da tabela no banco
 }
