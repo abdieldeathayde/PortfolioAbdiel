@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client'
-
-const prisma = new PrismaClient()
+import { prisma } from '../prisma';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -10,14 +8,25 @@ export default async function handler(req, res) {
   try {
     const { nome, email, mensagem } = req.body;
 
-    const novoContato = await prisma.contato.create({
-      data: { nome, email, mensagem }
+    // Validação extra no servidor
+    if (!nome || !email || !mensagem || nome.trim() === "" || email.trim() === "") {
+      return res.status(400).json({ error: "Todos os campos são obrigatórios." });
+    }
+
+    // No seu schema.prisma, o modelo está definido como 'Mensagem'
+    const registro = await prisma.mensagem.create({
+      data: { 
+        nome: nome.trim(), 
+        email: email.trim(), 
+        mensagem: mensagem.trim() 
+      }
     });
 
-    return res.status(201).json({ success: true, data: novoContato });
+    return res.status(201).json({ success: true, data: registro });
   } catch (error) {
-    return res.status(500).json({ error: "Erro ao salvar mensagem: " + error.message });
-  } finally {
-    await prisma.$disconnect();
+    console.error("ERRO DE BANCO:", error);
+    return res.status(500).json({ 
+      error: `Erro no Prisma (${error.code || '500'}): ${error.message}` 
+    });
   }
 }

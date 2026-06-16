@@ -11,7 +11,14 @@ document.addEventListener('DOMContentLoaded', () => {
         const container = document.querySelector('.projetos-container');
         try {
             const response = await fetch('/api/script'); // Ajustado para o nome do arquivo api/script.js
+            if (!response.ok) throw new Error(`Erro HTTP: ${response.status}`);
+            
             const projetos = await response.json();
+
+            if (!Array.isArray(projetos) || projetos.length === 0) {
+                container.innerHTML = '<p>Nenhum projeto encontrado no momento.</p>';
+                return;
+            }
 
             container.innerHTML = projetos.map(p => `
                 <div class="projeto-card">
@@ -54,18 +61,20 @@ document.addEventListener('DOMContentLoaded', () => {
                     body: JSON.stringify(dados)
                 });
 
+                const isJson = response.headers.get('content-type')?.includes('application/json');
+                const result = isJson ? await response.json() : null;
+
                 if (response.ok) {
-                    const result = await response.json();
                     console.log("Resposta do servidor:", result);
                     alert("Sucesso! Mensagem enviada.");
                     form.reset();
                 } else {
-                    const errorData = await response.json();
-                    alert("Erro no servidor: " + (errorData.error || "Erro desconhecido"));
+                    console.error("Erro retornado pela API:", result || response.statusText);
+                    alert("Erro no servidor: " + (result?.error || "Falha na comunicação com o banco de dados. Verifique o terminal do Vercel Dev."));
                 }
             } catch (err) {
-                console.error(err);
-                alert("Erro de conexão com a API.");
+                console.error("Erro crítico na requisição:", err);
+                alert("Erro de conexão: O servidor não respondeu. Certifique-se de que está rodando o comando 'vercel dev'.");
             } finally {
                 btn.innerText = "Enviar Mensagem";
                 btn.disabled = false;

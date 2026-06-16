@@ -1,6 +1,4 @@
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { prisma } from '../prisma';
 
 export default async function handler(req, res) {
   try {
@@ -13,7 +11,5 @@ export default async function handler(req, res) {
   } catch (error) {
     console.error("Erro no Prisma:", error);
     return res.status(500).json({ error: "Erro ao buscar projetos: " + error.message });
-  } finally {
-    await prisma.$disconnect();
   }
 }

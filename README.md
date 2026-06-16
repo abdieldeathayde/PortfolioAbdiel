@@ -51,37 +51,39 @@ Portfolio-Abdiel/
 
 ## ⚙️ Como Executar o Projeto
 
-Como é um projeto estático, não precisa de instalação de dependências.
+Este projeto utiliza **Node.js**, **Prisma ORM** e **Vercel Functions**.
 
-### ✅ Opção 1 — Abrir diretamente
-
-1. Clone o repositório:
-
+1. **Clone o repositório e instale as dependências:**
 ```bash
 git clone https://github.com/abdieldeathayde/Portfolio-Abdiel.git
+cd Portfolio-Abdiel
+npm install
 ```
 
-2. Abra a pasta do projeto.
-
-3. Execute o arquivo:
-
+2. **Configure a variável de ambiente do banco:**
+   - Copie o exemplo para `.env.local`
+   - Edite `DATABASE_URL` com sua string de conexão PostgreSQL
+```bash
+cp .env.example .env.local
 ```
-index.html
+
+3. **Execute o servidor local com Vercel:**
+```bash
+vercel dev
 ```
+
+4. Abra a URL exibida pelo Vercel Dev no navegador.
+
+> Importante: abrir apenas `index.html` localmente não acionará as funções do backend. Use `vercel dev` para testar o formulário de contato e a busca de projetos.
 
 ---
 
-### ✅ Opção 2 — Usando Live Server (Recomendado)
+### ✅ Opção 2 — Usando Live Server (somente para frontend estático)
 
-Se estiver usando VS Code:
+Se estiver usando VS Code apenas para ver o layout, você pode abrir `index.html` com Live Server. Mas lembre-se:
 
-1. Instale a extensão **Live Server**
-2. Clique com botão direito no `index.html`
-3. Selecione:
-
-```
-Open with Live Server
-```
+* O formulário de contato **não funcionará** sem o backend Vercel.
+* A busca de projetos também depende do `vercel dev` e da variável `DATABASE_URL`.
 
 ---
 
